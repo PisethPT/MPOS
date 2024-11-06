@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35209.166
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPOS.WebMVC", "MPOS.WebMVC\MPOS.WebMVC.csproj", "{D1D3C497-E557-42BD-BAB6-DD214740B7F1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D1D3C497-E557-42BD-BAB6-DD214740B7F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1D3C497-E557-42BD-BAB6-DD214740B7F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1D3C497-E557-42BD-BAB6-DD214740B7F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1D3C497-E557-42BD-BAB6-DD214740B7F1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {73F34784-B60B-4C7B-86F0-420EC5D46177}
+	EndGlobalSection
+EndGlobal

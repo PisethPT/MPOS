@@ -1,0 +1,65 @@
+﻿@using System.Collections
+@* @model List<Category> *@
+@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<h3>Categories</h3>
+<input class="btn btn-primary" id="CreateNew" type="button" value="Create" />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Cost Price</th>
+            <th>Selling Price</th>
+            <th>Unit</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.Name</td>
+                <td>@product.Category</td>
+                <td>@product.CostPrice.ToString("C2")</td>
+                <td>@product.SellingPrice.ToString("C2")</td>
+                <td>@product.Unit</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@* <table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Created</th>
+            <th>Updated</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach(var category in Model)
+        {
+            <tr>
+                <td>@category.Id</td>
+                <td>@category.Name</td>
+                <td>@category.Created.ToString("MM/dd/yyyy")</td>
+                <td>@category.Updated.ToString("MM/dd/yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table> *@
