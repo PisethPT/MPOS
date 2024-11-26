@@ -17,21 +17,8 @@ namespace MPOS.WebMVC.Controllers
         }
 
         public IActionResult Index()
-        {
-            IEnumerable products = from product in context.Products
-                           join category in context.Categories
-                           on product.CategoryId equals category.Id
-                           select new
-                           {
-                               Id  = product.Id,
-                               Name = product.Name,
-                               Category = category!.Name,
-                               CostPrice = product.CostPrice,
-                               SellingPrice = product.SellingPrice,
-                               Unit = product.Unit
-                           };
-                           
-            return View(products);
+        {        
+            return View();
         }
 
         public IActionResult Privacy()

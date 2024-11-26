@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
+using MPOS.WebMVC.Controllers;
 using MPOS.WebMVC.Data;
 
 namespace MPOS.WebMVC
@@ -12,10 +15,32 @@ namespace MPOS.WebMVC
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<DemoContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("MPOSDB"))
+                options.UseSqlServer(builder.Configuration.GetConnectionString("MPOSDB") ?? throw new InvalidOperationException("Data connection strings 'DbConnection' is not found."))
             );
 
-            var app = builder.Build();
+			builder.Services.AddSession();
+			builder.Services.AddSession(options =>
+			{
+				options.IdleTimeout = TimeSpan.FromHours(2);
+				options.Cookie.HttpOnly = true;
+				options.Cookie.IsEssential = true;
+			});
+			builder.Services.ConfigureApplicationCookie(options =>
+			{
+				options.ExpireTimeSpan = TimeSpan.FromHours(2);
+				options.SlidingExpiration = true;
+
+			});
+			builder.Services.Configure<FormOptions>(options =>
+			{
+				options.ValueCountLimit = int.MaxValue;
+			});
+
+
+            builder.Services.AddScoped<IFileService, FileService>();
+
+
+			var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -26,9 +51,13 @@ namespace MPOS.WebMVC
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+			{
+				FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.WebRootPath + "\\Images\\")), RequestPath = "/Resources"
+			});
 
-            app.UseRouting();
+			app.UseRouting();
+            app.UseSession();
 
             app.UseAuthorization();
 

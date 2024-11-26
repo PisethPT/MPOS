@@ -127,7 +127,6 @@ public partial class DemoContext : DbContext
                     tb.HasTrigger("InsertProduct");
                 });
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Created).HasColumnType("datetime");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
@@ -256,7 +255,6 @@ public partial class DemoContext : DbContext
         {
             entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C70D93C80");
 
-            entity.Property(e => e.UserId).ValueGeneratedNever();
             entity.Property(e => e.Created).HasColumnType("datetime");
             entity.Property(e => e.Password)
                 .HasMaxLength(50)

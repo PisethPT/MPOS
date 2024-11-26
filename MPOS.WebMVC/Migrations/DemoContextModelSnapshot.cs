@@ -128,7 +128,10 @@ namespace MPOS.WebMVC.Migrations
             modelBuilder.Entity("MPOS.WebMVC.Models.Product", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -144,6 +147,9 @@ namespace MPOS.WebMVC.Migrations
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Photo")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("SellingPrice")
                         .HasColumnType("float");
@@ -345,7 +351,10 @@ namespace MPOS.WebMVC.Migrations
             modelBuilder.Entity("MPOS.WebMVC.Models.User", b =>
                 {
                     b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime");
@@ -358,6 +367,9 @@ namespace MPOS.WebMVC.Migrations
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Photo")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<byte>("Status")
                         .HasColumnType("tinyint");

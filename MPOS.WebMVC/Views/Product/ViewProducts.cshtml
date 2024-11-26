@@ -1,0 +1,95 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "All Products";
+    Product NewProduct = new Product();
+    NewProduct.Id = 1;
+}
+
+<div class="page-body">
+
+    @if (!string.IsNullOrEmpty(ViewBag.Info))
+    {
+        <div class="alert alert-info">
+            <strong>@ViewBag.Info</strong>
+            <a class="btn-close p-0" data-bs-dismiss="alert" aria-label="Close" style="float:right!important"><i class="bi bi-x-circle-fill"></i></a>
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(ViewBag.error))
+    {
+        <div class="alert alert-danger">
+            <strong>@ViewBag.error</strong>
+            <a class="btn-close p-0" data-bs-dismiss="alert" aria-label="Close" style="float:right!important"><i class="bi bi-x-circle-fill"></i></a>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>All Products</h5>
+                    <hr />
+                    <a class="btn btn-primary mb-4" asp-action="Product" asp-controller="Product"><i class="bi bi-plus-circle-fill"></i> Create</a>
+
+                    <div class="table-responsive pl-3 pr-3 ps-0">
+                        <table id="dataTable" class="table table-striped" style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <th>Action</th>
+                                    <th>Photo</th>
+                                    <th style="text-align:center;">Product Id</th>
+                                    <th>Product Name</th>
+                                    <th>Category</th>
+                                    <th>Cost Price</th>
+                                    <th>Selling Price</th>
+                                    <th>Unit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var product in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a class="btn btn-outline-primary p-2" style="border-radius:5px;" asp-action="Product" asp-route-id="@product.Id"> <i class="bi bi-pencil-fill"></i></a>
+                                        </td>
+                                        <td>
+                                            @if (string.IsNullOrEmpty(product.Photo))
+                                            {
+                                                <img class="img-40 rounded-top rounded-bottom img-fluid" src="~/DefaultImage/no_image_300.png" />
+                                            }else
+                                            {
+                                                <img class="img-40 rounded-top rounded-bottom img-fluid" style="border:solid 0.7px green; border-radius:8px;" src="https://localhost:7207/resources/@product.Photo"/>
+                                            }
+                                        </td>
+                                        <td style="text-align:center;">@product.Id</td>
+                                        <td>@product.Name</td>
+                                        <td>@product.Category</td>
+                                        <td>@product.CostPrice.ToString("C2")</td>
+                                        <td>@product.SellingPrice.ToString("C2")</td>
+                                        <td>@product.Unit</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr />
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#dataTable').DataTable({
+            responsive: true,
+            searching: true,
+            paging: true
+        });
+    });
+</script>

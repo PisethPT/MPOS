@@ -1,0 +1,112 @@
+﻿@model MPOS.WebMVC.Models.Product
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = Model.Title;
+    string ActionName = string.Empty;
+}
+
+
+
+<div class="page-body">
+
+    @if (!string.IsNullOrEmpty(ViewBag.Info))
+    {
+        <div class="alert alert-info">
+            <strong>@ViewBag.Info</strong>
+            <a class="btn-close p-0" data-bs-dismiss="alert" aria-label="Close" style="float:right!important"><i class="bi bi-x-circle-fill"></i></a>
+        </div>
+
+    }
+    @if (!string.IsNullOrEmpty(ViewBag.error))
+    {
+        <div class="alert alert-danger">
+            <strong>@ViewBag.error</strong>
+            <a class="btn-close p-0" data-bs-dismiss="alert" aria-label="Close" style="float:right!important"><i class="bi bi-x-circle-fill"></i></a>
+        </div>
+        }
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="card">
+                <div class="card-header">
+                    @if (string.IsNullOrEmpty(Model.Title) || Model.Title != "Create Product")
+                    {
+                        Model.Title = "Update Product";
+                        ActionName = "EditProduct";
+                    }
+                    else
+                        ActionName = "CreateProduct";
+                    <h5>@Model.Title</h5>
+
+                    <hr />
+                    <a class="btn btn-primary" asp-action="ViewProducts" asp-controller="Product"><i class="bi bi-arrow-90deg-left"></i> Back</a>
+                    <hr />
+
+                    <form asp-action="@ActionName" asp-controller="Product" method="post" enctype="multipart/form-data">
+                        <div class="row">
+
+                            <div class="col-lg-4 col-xl-4 col-sm-12 col-12">
+                                <div class="form-group">
+                                    <div class="input-group-default">
+                                        <input asp-for="Id" value="@Model.Id" hidden />
+                                        <p>Product Name <span class="text-danger d-inline">*</span></p>
+                                        <input class="form-control" type="text" asp-for="Name" placeholder="Product Name" id="productNameId" required />
+                                    </div>
+                                    <span class="text-danger" asp-validation-for="Name"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-4 col-xl-4 col-sm-12 col-12">
+                                <div class="form-group">
+                                    <p>Product Name <span class="text-danger d-inline">*</span></p>
+                                    <select class="form-control" asp-items="@Model.Categories" asp-for="CategoryId" id="categoryId" required>
+                                        <option value="" selected hidden> Choose Category </option>
+                                    </select>
+                                    <span class="text-danger" asp-validation-for="CategoryId"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-xl-4 col-sm-12 col-12">
+                                <div class="form-group">
+                                    <p>Cost Price <span class="text-danger d-inline">*</span></p>
+                                    <input class="form-control" type="number" asp-for="CostPrice" placeholder="Cost Price" id="costPriceId" required />
+                                    <span class="text-danger" asp-validation-for="CostPrice"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-xl-4 col-sm-12 col-12">
+                                <div class="form-group">
+                                    <p>Selling Price <span class="text-danger d-inline">*</span></p>
+                                    <input class="form-control" type="number" asp-for="SellingPrice" placeholder="Selling Price" id="sellingPriceId" required />
+                                    <span class="text-danger" asp-validation-for="SellingPrice"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-xl-4 col-sm-12 col-12">
+                                <div class="form-group">
+                                    <p>Product Unit</p>
+                                    <input class="form-control" type="text" asp-for="Unit" placeholder="Unit" id="unitId" />
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-xl-4 col-sm-12 col-12">
+                                <div class="form-group">
+                                    <p>Product Photo</p>
+                                    <input class="form-control" type="file" asp-for="IPhoto" accept="JPG PNG JPEG" id="iPhotoId" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <button class="btn btn-primary mt-3" type="submit"><i class="bi bi-save"></i> Save</button>
+
+                    </form>
+                    <hr />
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
