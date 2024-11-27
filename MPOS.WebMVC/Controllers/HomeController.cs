@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using MPOS.WebMVC.Data;
@@ -6,7 +5,7 @@ using MPOS.WebMVC.Models;
 
 namespace MPOS.WebMVC.Controllers
 {
-    public class HomeController : Controller
+	public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly DemoContext context;
@@ -17,8 +16,11 @@ namespace MPOS.WebMVC.Controllers
         }
 
         public IActionResult Index()
-        {        
-            return View();
+        {
+			if (string.IsNullOrEmpty(HttpContext.Session.GetString("Username")) && string.IsNullOrEmpty(HttpContext.Session.GetString("Password")))
+				return RedirectToAction("Index", "User");
+
+			return View();
         }
 
         public IActionResult Privacy()

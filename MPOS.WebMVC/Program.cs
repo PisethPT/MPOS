@@ -4,9 +4,10 @@ using Microsoft.Extensions.FileProviders;
 using MPOS.WebMVC.Controllers;
 using MPOS.WebMVC.Data;
 
+
 namespace MPOS.WebMVC
 {
-    public class Program
+	public class Program
     {
         public static void Main(string[] args)
         {
@@ -14,10 +15,12 @@ namespace MPOS.WebMVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddDbContext<DemoContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("MPOSDB") ?? throw new InvalidOperationException("Data connection strings 'DbConnection' is not found."))
+
+			builder.Services.AddDbContext<DemoContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("MPOSDB") ?? throw new InvalidOperationException("Data connection strings 'MPOSDB' is not found."))
             );
 
+			builder.Services.AddHttpContextAccessor();
 			builder.Services.AddSession();
 			builder.Services.AddSession(options =>
 			{
@@ -35,7 +38,6 @@ namespace MPOS.WebMVC
 			{
 				options.ValueCountLimit = int.MaxValue;
 			});
-
 
             builder.Services.AddScoped<IFileService, FileService>();
 
@@ -58,12 +60,12 @@ namespace MPOS.WebMVC
 
 			app.UseRouting();
             app.UseSession();
-
+           
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=User}/{action=Index}/{id?}");
 
             app.Run();
         }

@@ -9,7 +9,7 @@
 
     <meta name="keywords" content=", Flat ui, Admin , Responsive, Landing, Bootstrap, App, Template, Mobile, iOS, Android, apple, creative app">
 
-    <link rel="icon" href="~/assets/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="~/Logo/default_icon.png" type="image/x-icon">
 
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
@@ -201,7 +201,7 @@
                                     <li class="user-profile header-notification">
                                         <a href="#!">
                                         <img src="~/assets/images/user.png" alt="User-Profile-Image">
-                                            <span>Admin</span>
+                                            <span>@HttpContextAccessor.HttpContext!.Session.GetString("Username")!.ToString()</span>
                                             <i class="ti-angle-down"></i>
                                         </a>
                                         <ul class="show-notification profile-notification">
@@ -401,7 +401,7 @@
                 <div class="showChat_inner">
                     <div class="media chat-inner-header">
                         <a class="back_chatBox">
-                            <i class="icofont icofont-rounded-left"></i> Admin
+                            <i class="icofont icofont-rounded-left"></i> @HttpContextAccessor.HttpContext.Session.GetString("Username")!.ToString()
                         </a>
                     </div>
                     <div class="media chat-messages">
@@ -456,7 +456,7 @@
 
                                     @*user*@
                                     <div class="user-details">
-                                        <span>Admin</span>
+                                        <span>@HttpContextAccessor.HttpContext.Session.GetString("Username")!.ToString()</span>
                                         <span id="more-details">Settings<i class="ti-angle-down"></i></span>
                                     </div>
 

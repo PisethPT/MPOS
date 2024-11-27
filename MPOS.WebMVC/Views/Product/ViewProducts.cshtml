@@ -2,10 +2,8 @@
 
 @{
     ViewData["Title"] = "All Products";
-    Product NewProduct = new Product();
-    NewProduct.Id = 1;
 }
-
+<title>MPOS-All Products</title>
 <div class="page-body">
 
     @if (!string.IsNullOrEmpty(ViewBag.Info))
@@ -35,7 +33,7 @@
                         <table id="dataTable" class="table table-striped" style="width:100%;">
                             <thead>
                                 <tr>
-                                    <th>Action</th>
+                                    <th style="text-align:center;">Action</th>
                                     <th>Photo</th>
                                     <th style="text-align:center;">Product Id</th>
                                     <th>Product Name</th>
@@ -49,16 +47,21 @@
                                 @foreach (var product in Model)
                                 {
                                     <tr>
-                                        <td>
-                                            <a class="btn btn-outline-primary p-2" style="border-radius:5px;" asp-action="Product" asp-route-id="@product.Id"> <i class="bi bi-pencil-fill"></i></a>
+                                        <td style="display: flex; justify-content: center; align-items: center;">
+                                            <a class="btn btn-outline-primary p-2 mt-2" style="border-radius:5px; display: flex; justify-content: center; align-items: center;" asp-action="Product" asp-route-id="@product.Id">
+                                                <i class="bi bi-pencil-fill"></i>
+                                            </a>
                                         </td>
+
                                         <td>
                                             @if (string.IsNullOrEmpty(product.Photo))
                                             {
-                                                <img class="img-40 rounded-top rounded-bottom img-fluid" src="~/DefaultImage/no_image_300.png" />
+                                                <img class="img-50 rounded-top rounded-bottom img-fluid " src="~/DefaultImage/no_image_300.png" />
                                             }else
                                             {
-                                                <img class="img-40 rounded-top rounded-bottom img-fluid" style="border:solid 0.7px green; border-radius:8px;" src="https://localhost:7207/resources/@product.Photo"/>
+                                                <div class="rounded-top rounded-bottom" style=" box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); border:solid 0.7px green; border-radius:8px; width:50px; height:50px; display: flex; justify-content: center; align-items: center;">
+                                                    <img class="img-fluid p-1" src="https://localhost:7207/resources/@product.Photo" style="align-content: center;" />
+                                                </div>
                                             }
                                         </td>
                                         <td style="text-align:center;">@product.Id</td>

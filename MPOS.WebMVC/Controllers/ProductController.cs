@@ -24,26 +24,18 @@ namespace MPOS.WebMVC.Controllers
 		[HttpGet]
 		public ActionResult ViewProducts() 
 		{
-			IEnumerable products = (from product in context.Products
-									join category in context.Categories
-									on product.CategoryId equals category.Id
-									select new
-									{
-										Id = product.Id,
-										Name = product.Name,
-										Category = category!.Name,
-										CostPrice = product.CostPrice,
-										SellingPrice = product.SellingPrice,
-										Unit = product.Unit,
-										Photo = product.Photo
-									}).ToList();
+			if (string.IsNullOrEmpty(HttpContext.Session.GetString("Username")) && string.IsNullOrEmpty(HttpContext.Session.GetString("Password")))
+				return RedirectToAction("Index", "User");
 
-			return View(products);
+			return View(Products()); 
 		}
 
 		[HttpGet]
 		public ActionResult Product(Product product)
 		{
+			if (string.IsNullOrEmpty(HttpContext.Session.GetString("Username")) && string.IsNullOrEmpty(HttpContext.Session.GetString("Password")))
+				return RedirectToAction("Index", "User");
+
 			if (product.Id > 0)
 			{
 				var existingProduct = context.Products.FirstOrDefault(p => p.Id == product.Id);
@@ -60,6 +52,9 @@ namespace MPOS.WebMVC.Controllers
 		[HttpPost]
 		public ActionResult CreateProduct(Product newProduct)
 		{
+			if (string.IsNullOrEmpty(HttpContext.Session.GetString("Username")) && string.IsNullOrEmpty(HttpContext.Session.GetString("Password")))
+				return RedirectToAction("Index", "User");
+
 			try
 			{
 				if(newProduct is not null)
@@ -76,7 +71,7 @@ namespace MPOS.WebMVC.Controllers
 					context.Products.Add(newProduct);
 					context.SaveChanges();
 					ViewBag.info = "Product Created.";
-					return View("ViewProducts", context.Products.ToList());
+					return View("ViewProducts", Products());
 				}
 				else
 				{
@@ -96,11 +91,21 @@ namespace MPOS.WebMVC.Controllers
 		[HttpPost]
 		public ActionResult EditProduct(Product newProduct) 
 		{
+			if (string.IsNullOrEmpty(HttpContext.Session.GetString("Username")) && string.IsNullOrEmpty(HttpContext.Session.GetString("Password")))
+				return RedirectToAction("Index", "User");
+
 			try
 			{
 				var existingProduct = context.Products.FirstOrDefault(p => p.Id.Equals(newProduct.Id));
 				if (existingProduct is not null)
 				{
+					if (newProduct.IPhoto is not null)
+					{
+						var file = fileService.GetFile(newProduct.IPhoto);
+						if (file != null)
+							existingProduct.Photo = file.Item1 as string;
+					}
+
 					existingProduct.Name = newProduct.Name;
 					existingProduct.CategoryId = newProduct.CategoryId;
 					existingProduct.CostPrice = newProduct.CostPrice;
@@ -110,7 +115,7 @@ namespace MPOS.WebMVC.Controllers
 
 					context.SaveChanges();
 					ViewBag.info = "Product Updated.";
-					return View("ViewProducts", context.Products.ToList());
+					return View("ViewProducts", Products());
 				}
 				else
 				{
@@ -138,6 +143,23 @@ namespace MPOS.WebMVC.Controllers
 			}).ToList();
 
 			return product;
+		}
+
+		private IEnumerable Products()
+		{
+			return (from product in context.Products
+									join category in context.Categories
+									on product.CategoryId equals category.Id
+									select new
+									{
+										Id = product.Id,
+										Name = product.Name,
+										Category = category!.Name,
+										CostPrice = product.CostPrice,
+										SellingPrice = product.SellingPrice,
+										Unit = product.Unit,
+										Photo = product.Photo
+									}).AsEnumerable().ToList();
 		}
 	}
 }
