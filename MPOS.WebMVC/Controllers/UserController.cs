@@ -35,24 +35,24 @@ namespace MPOS.WebMVC.Controllers
 						else
 						{
 							ViewBag.Error = "Username or Password not invalid.";
-							return View();
+							return View("Index", user);
 						}
 					}catch(DbUpdateException ex)
 					{
 						ViewBag.Error = ex.InnerException!.Message;
-						return View();
+						return View("Index");
 					}
 				}
 				else
 				{
 					ViewBag.Error = "User is empty.";
-					return View();
+					return View("Index");
 				}
 			}
 			catch (Exception ex)
 			{
 				ViewBag.Error = ex.Message;
-				return View();
+				return View("Index");
 			}
 		}
 

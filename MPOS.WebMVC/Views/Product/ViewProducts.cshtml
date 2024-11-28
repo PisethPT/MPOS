@@ -4,6 +4,7 @@
     ViewData["Title"] = "All Products";
 }
 <title>MPOS-All Products</title>
+
 <div class="page-body">
 
     @if (!string.IsNullOrEmpty(ViewBag.Info))
@@ -16,7 +17,7 @@
     @if (!string.IsNullOrEmpty(ViewBag.error))
     {
         <div class="alert alert-danger">
-            <strong>@ViewBag.error</strong>
+            <strong>@ViewBag.Error</strong>
             <a class="btn-close p-0" data-bs-dismiss="alert" aria-label="Close" style="float:right!important"><i class="bi bi-x-circle-fill"></i></a>
         </div>
     }

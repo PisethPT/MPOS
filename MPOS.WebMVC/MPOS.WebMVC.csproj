@@ -204,6 +204,7 @@
     <None Include="wwwroot\bower_components\tether\dist\js\tether.min.js" />
     <None Include="wwwroot\bower_components\typeahead.js\dist\typeahead.bundle.min.js" />
     <None Include="wwwroot\bower_components\underscore\underscore-min.js" />
+    <None Include="wwwroot\Logo\hambeger.png" />
   </ItemGroup>
 
   <ItemGroup>
