@@ -1,8 +1,9 @@
 ﻿@using System.Collections
+@model MPOS.WebMVC.ModelsDTO.Dashboard
 
 @{
     ViewData["Title"] = "Dashboard";
-
+    int index = 1;
 }
 <link rel="stylesheet" type="text/css" href="~/assets/css/style.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
@@ -67,7 +68,7 @@
                         </div>
 
                     </div>
-                    
+
                     <hr />
 
                     <div class="row">
@@ -94,7 +95,7 @@
                                                     <canvas id="doughnutChart" style="width:100%;max-width:600px"></canvas>
                                                 </div>
                                             </div>
-                                           
+
                                         </div>
                                     </div>
                                 </div>
@@ -110,8 +111,35 @@
                                             </div>
                                         </div>
                                         <div class="card-block">
-                                           <div>
-                                           </div>
+                                            <div class="table-responsive pl-3 pr-3 ps-0">
+                                                <table id="dataTableTopSaleProducts" class="table table-striped" style="width:100%;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="text-align:center;">No.</th>
+                                                            <th style="text-align:center;">InvoiceId</th>
+                                                            <th>Product Name</th>
+                                                            <th>Category Name</th>
+                                                            <th>Quantity</th>
+                                                            <th>Total Price</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var product in Model.TopProducts!)
+                                                        {
+                                                            <tr>
+                                                                <td style="text-align:center;">@index</td>
+                                                                <td>@product.InvoiceId</td>
+                                                                <td>@product.ProductName</td>
+                                                                <td>@product.Category</td>
+                                                                <td>@product.Quantity.ToString("#,###.0")</td>
+                                                                <td>@product.TotalPrice.ToString("C2")</td>
+                                                            </tr>
+                                                            index++;
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -129,9 +157,34 @@
                                     </div>
                                 </div>
                                 <div class="card-block">
-                                    <p style="font-size:36px; font-weight:bold; color:dimgrey; ">$ 307,098.0</p>
-                                    <span>5% from last month</span>
+                                    <div class="table-responsive pl-3 pr-3 ps-0">
+                                        <table id="dataTableTopEmployees" class="table table-striped" style="width:100%;">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align:center;">No.</th>
+                                                    <th>Employee Id</th>
+                                                    <th>Employee Name</th>
+                                                    <th>Phone</th>
+                                                    <th>Total Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var employee in Model.TopEmployees!)
+                                                {
+                                                    <tr>
+                                                        <td style="text-align:center;">@index</td>
+                                                        <td>@employee.EmployeeId</td>
+                                                        <td>@employee.EmployeeName</td>
+                                                        <td>@employee.Phone</td>
+                                                        <td>@employee.TotalAmount.ToString("C2")</td>
+                                                    </tr>
+                                                    index++;
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
+                                <span></span>
                             </div>
                         </div>
 
@@ -196,5 +249,34 @@
           text: "World Wide Wine Production 2018"
         }
       }
+    });
+</script>
+
+
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+
+
+<script>
+    $(document).ready(function() {
+        $('#dataTableTopSaleProducts').DataTable({
+            responsive: true,
+            searching: true,
+            paging: true,
+            lengthMenu: [
+            [5, 10, 20, -1],
+            [5, 10, 15, 'All']
+        ]
+        });
+        
+        $('#dataTableTopEmployees').DataTable({
+            responsive: true,
+            searching: true,
+            paging: true,
+            lengthMenu: [
+            [12, 15, 20, -1],
+            [12, 20, 50, 'All']
+        ]
+        });
     });
 </script>

@@ -30,7 +30,7 @@ namespace MPOS.WebMVC.Controllers
 						{
 							HttpContext.Session.SetString("Username", existingUser.Username);
 							HttpContext.Session.SetString("Password", existingUser.Password);
-							return RedirectToAction("Index", "Home");
+							return RedirectToAction("Index", "Dashboard");
 						}
 						else
 						{

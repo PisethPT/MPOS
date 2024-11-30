@@ -27,6 +27,7 @@
             <div class="card">
                 <div class="card-header">
                     <h5>All Products</h5>
+
                     <hr />
                     <a class="btn btn-primary mb-4" asp-action="Product" asp-controller="Product"><i class="bi bi-plus-circle-fill"></i> Create</a>
 
@@ -42,6 +43,7 @@
                                     <th>Cost Price</th>
                                     <th>Selling Price</th>
                                     <th>Unit</th>
+                                    <th style="text-align:center;">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -71,6 +73,12 @@
                                         <td>@product.CostPrice.ToString("C2")</td>
                                         <td>@product.SellingPrice.ToString("C2")</td>
                                         <td>@product.Unit</td>
+                                        <td style="text-align:center;" class="status-label">
+                                           @*  <button class="btn btn-info" style="border-radius:8px; cursor:auto; height:30px; text-align:center; padding-left:20px; padding-right:20px; padding-top:1px; padding-bottom:1px;">In Stock</button> *@
+                                            <div style="min-width:auto; height:2rem; align-items:center; border-radius:8px; justify-content:center; background-color:rgb(44, 62, 80)">
+                                              <span style="padding:5px; text-align:center; color:white;">In Stock</span>
+                                           </div>
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
@@ -84,9 +92,16 @@
     </div>
 </div>
 
+<style>
+    td{
+        align-content:center;
+    }
+</style>
+
 
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+<link rel="stylesheet" type="text/css" href="~/assets/css/style.css">
 
 <script>
     $(document).ready(function() {
