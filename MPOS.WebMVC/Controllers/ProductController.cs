@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using MPOS.WebMVC.Data;
 using MPOS.WebMVC.Models;
 using System.Collections;
+using System.Web.Helpers;
 
 
 
@@ -133,6 +134,46 @@ namespace MPOS.WebMVC.Controllers
 			}
 		}
 
+		public JsonResult ViewProductById(Product product)
+		{
+			try
+			{
+				if (product.Id > 0)
+				{
+					var existingProduct = (from p in context.Products
+										   join c in context.Categories
+										   on p.CategoryId equals c.Id
+										   where product.Id == p.Id
+										   select new
+										   {
+											   productName = p.Name,
+											   categoryName = c.Name,
+											   photo = p.Photo,
+											   costPrice = p.CostPrice,
+											   sellingPrice = p.SellingPrice,
+											   unit = p.Unit,
+											   created = p.Created,
+											   updated = p.Updated
+										   }).FirstOrDefault();
+					return Json(existingProduct);
+				}
+				else
+				{
+					return Json(null);
+				}
+			}
+			catch(Exception ex)
+			{
+				return Json(ex.Message);
+			}
+			
+		}
+
+		private object GetProductById(int id)
+		{
+			throw new NotImplementedException();
+		}
+
 		private Product GetCategoriesItem(Product product, string title)
 		{
 			product.Title = title;
@@ -158,7 +199,9 @@ namespace MPOS.WebMVC.Controllers
 										CostPrice = product.CostPrice,
 										SellingPrice = product.SellingPrice,
 										Unit = product.Unit,
-										Photo = product.Photo
+										Photo = product.Photo,
+										Created = product.Created.ToShortDateString(),
+										Updated = product.Updated
 									}).AsEnumerable().ToList();
 		}
 	}

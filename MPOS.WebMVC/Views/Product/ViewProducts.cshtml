@@ -5,6 +5,31 @@
 }
 <title>MPOS-All Products</title>
 
+
+
+
+<!-- Modal -->
+<div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">VIEW DETAIL PRODUCT</h5>
+                <a class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-circle-fill"></i></a>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    @*find from ajax*@
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <a class="qr-code" href="#"> <span>Generate QR <i class="bi bi-qr-code"></i></span> </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="page-body">
 
     @if (!string.IsNullOrEmpty(ViewBag.Info))
@@ -27,7 +52,6 @@
             <div class="card">
                 <div class="card-header">
                     <h5>All Products</h5>
-
                     <hr />
                     <a class="btn btn-primary mb-4" asp-action="Product" asp-controller="Product"><i class="bi bi-plus-circle-fill"></i> Create</a>
 
@@ -51,8 +75,11 @@
                                 {
                                     <tr>
                                         <td style="display: flex; justify-content: center; align-items: center;">
-                                            <a class="btn btn-outline-primary p-2 mt-2" style="border-radius:5px; display: flex; justify-content: center; align-items: center;" asp-action="Product" asp-route-id="@product.Id">
-                                                <i class="bi bi-pencil-fill"></i>
+                                            <a class="btn btn-outline-primary p-2 mt-2" style="border-radius:5px; display: flex; justify-content: center; align-items: center;" asp-action="Product" asp-controller="Product" asp-route-id="@product.Id">
+                                                <i class="bi bi-pencil-fill" style="margin-left:4px;"></i>
+                                            </a>
+                                            <a class="btn btn-outline-primary p-2 mt-2 ml-3 view" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="border-radius:50%; display: flex; justify-content: center; align-items: center;" asp-action="ViewProductById" asp-controller="Product" asp-route-id="@product.Id" id="@product.Id">
+                                                <i class="bi bi-eye-fill" style="margin-left:4px;"></i>
                                             </a>
                                         </td>
 
@@ -96,8 +123,99 @@
     td{
         align-content:center;
     }
+
+    .qr-code>span:hover{
+        cursor:pointer;
+        color: rgb(30, 174, 146);
+    }
 </style>
 
+
+<script>
+    $('[data-bs-toggle="modal"]').on('click', function(e) {
+        var id = $(this).attr('id');
+        var Url = 'https://localhost:7207/Product/ViewProductById/' + id;
+        // alert(Url);
+
+        $.ajax({
+            url: Url,
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                    if (data) {
+                        var createdDate = new Date(data.created).toISOString().split('T')[0];
+                        var updatedDate = new Date(data.updated).toISOString().split('T')[0];
+                        var photoUrl = data.photo ? `https://localhost:7207/resources/${data.photo}` : 'https://localhost:7207/resources/c03c604c-4071-40d7-967a-164209bfa1bf_no_imagex300.png';
+
+                        var content = `
+                            <div class="row">
+                                <div class="col-lg-2 col-xl-2 col-sm-12 col-12" style="float:right;">
+                                    <div class="form-group">
+                                        <label class="form-label">Photo</label>
+                                        <div class="rounded-top rounded-bottom" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); border:solid 0.7px green; border-radius:8px; width:126px; height:126px; display: flex; justify-content: center; align-items: center;">
+                                            <img class="img-fluid p-1" src="${photoUrl}" style="align-content: center;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-10 col-xl-10 col-sm-12 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Product Name</label>
+                                        <textarea class="form-control" rows="6">${data.productName}</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-xl-6 col-sm-12 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Category</label>
+                                        <select class="form-control">
+                                            <option value="1" selected>${data.categoryName}</option>
+                                            <!-- Add options dynamically if needed -->
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-xl-6 col-sm-12 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Cost Price</label>
+                                        <input class="form-control" type="number" value="${data.costPrice}" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-xl-6 col-sm-12 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Selling Price</label>
+                                        <input class="form-control" type="number" value="${data.sellingPrice}" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-xl-6 col-sm-12 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Unit</label>
+                                        <input class="form-control" type="text" value="${data.unit}" />
+                                    </div>
+                                </div>
+                               <div class="col-lg-6 col-xl-6 col-sm-12 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Create Date</label>
+                                        <input class="form-control" type="date" value="${createdDate}" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-xl-6 col-sm-12 col-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Update Date</label>
+                                        <input class="form-control" type="date" value="${updatedDate}" />
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        $('#staticBackdrop .modal-body').html(content);
+                    } else {
+                        $('#staticBackdrop .modal-body').html('<p>No product details found</p>');
+                    }
+                    $('#staticBackdrop').modal('show');
+                },
+                error: function() {
+                    $('#staticBackdrop .modal-body').html('<p>Error loading content</p>');
+                }
+        });
+    });
+</script>
 
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
@@ -112,3 +230,7 @@
         });
     });
 </script>
+
+
+
+
